@@ -1,7 +1,15 @@
-// Dashboard.js
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeWidget } from "../store";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  IconButton,
+  Grid,
+} from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 const Dashboard = () => {
   const categories = useSelector((state) => state.dashboard.categories);
@@ -15,20 +23,31 @@ const Dashboard = () => {
     <div>
       {categories.map((category) => (
         <div key={category.name}>
-          <h2>{category.name}</h2>
-          <div className="widgets">
+          <Typography variant="h4" gutterBottom>
+            {category.name}
+          </Typography>
+          <Grid container spacing={3}>
             {category.widgets.map((widget) => (
-              <div key={widget.id} className="widget">
-                <h3>{widget.name}</h3>
-                <p>{widget.text}</p>
-                <button
-                  onClick={() => handleRemoveWidget(category.name, widget.id)}
-                >
-                  Remove
-                </button>
-              </div>
+              <Grid item xs={12} sm={6} md={4} key={widget.id}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">{widget.name}</Typography>
+                    <Typography variant="body2">{widget.text}</Typography>
+                  </CardContent>
+                  <CardActions>
+                    <IconButton
+                      color="secondary"
+                      onClick={() =>
+                        handleRemoveWidget(category.name, widget.id)
+                      }
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </CardActions>
+                </Card>
+              </Grid>
             ))}
-          </div>
+          </Grid>
         </div>
       ))}
     </div>

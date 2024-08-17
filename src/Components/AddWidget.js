@@ -1,7 +1,15 @@
-// AddWidget.js
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addWidget } from "../store";
+import {
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Box,
+} from "@mui/material";
 
 const AddWidget = () => {
   const [widgetName, setWidgetName] = useState("");
@@ -17,35 +25,47 @@ const AddWidget = () => {
       text: widgetText,
     };
     dispatch(addWidget({ categoryName, widget: newWidget }));
+    setWidgetName("");
+    setWidgetText("");
+    setCategoryName("");
   };
 
   return (
-    <div>
-      <select
-        onChange={(e) => setCategoryName(e.target.value)}
-        value={categoryName}
-      >
-        <option value="">Select Category</option>
-        {categories.map((category) => (
-          <option key={category.name} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
-      <input
-        type="text"
-        placeholder="Widget Name"
+    <Box sx={{ mt: 4 }}>
+      <FormControl fullWidth sx={{ mb: 2 }}>
+        <InputLabel>Select Category</InputLabel>
+        <Select
+          value={categoryName}
+          onChange={(e) => setCategoryName(e.target.value)}
+          label="Select Category"
+        >
+          {categories.map((category) => (
+            <MenuItem key={category.name} value={category.name}>
+              {category.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <TextField
+        fullWidth
+        variant="outlined"
+        label="Widget Name"
         value={widgetName}
         onChange={(e) => setWidgetName(e.target.value)}
+        sx={{ mb: 2 }}
       />
-      <input
-        type="text"
-        placeholder="Widget Text"
+      <TextField
+        fullWidth
+        variant="outlined"
+        label="Widget Text"
         value={widgetText}
         onChange={(e) => setWidgetText(e.target.value)}
+        sx={{ mb: 2 }}
       />
-      <button onClick={handleAddWidget}>Add Widget</button>
-    </div>
+      <Button variant="contained" color="primary" onClick={handleAddWidget}>
+        Add Widget
+      </Button>
+    </Box>
   );
 };
 
